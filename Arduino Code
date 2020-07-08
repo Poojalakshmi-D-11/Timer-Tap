@@ -41,7 +41,7 @@ void loop() {
   }
   buttonState3 = digitalRead(buttonPinhurry);
   if(buttonState3==HIGH) {
-    if(onind==1){
+    if(onind==1){  //if tap is on turn off
     digitalWrite(control, HIGH);
     onind=0;
     }
