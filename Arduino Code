@@ -1,0 +1,55 @@
+// the number of the pushbutton pin
+const int buttonPininit = 2; //ON button    
+const int buttonPinend = 4; //OFF button
+const int buttonPinhurry = 7; //hurry on/off
+const int control =  13;      // the number of the relay control pin
+
+unsigned int counter=0;
+int onind=0; //to keep track of tap on/off
+
+int buttonState1 = 0;         // variable for reading the pushbutton status
+int buttonState2 = 0; 
+int buttonState3 = 0; 
+void setup() {
+  // initialize the LED pin as an output:
+  pinMode(control, OUTPUT);
+  // initialize the pushbutton pin as an input:
+  pinMode(buttonPininit, INPUT);
+  pinMode(buttonPinend, INPUT);
+  pinMode(buttonPinhurry, INPUT);
+}
+
+void loop() {
+  // read the state of the pushbutton-ON value:
+  buttonState1 = digitalRead(buttonPininit);
+
+  // check if the pushbutton is pressed. If it is, the buttonState1 is HIGH:
+  if (buttonState1 == HIGH) {
+    //counter=0;
+    digitalWrite(control, LOW); //activate the relay
+    delay(4000); 
+    digitalWrite(control, HIGH); //inactivate the relay
+    delay(25000);
+    digitalWrite(control, LOW); //add counter incase people forgot to turn off the tap
+    onind=1;
+  } 
+  
+  buttonState2 = digitalRead(buttonPinend);
+  if(buttonState2==HIGH) {
+    digitalWrite(control, HIGH);
+    onind=0; 
+  }
+  buttonState3 = digitalRead(buttonPinhurry);
+  if(buttonState3==HIGH) {
+    if(onind==1){
+    digitalWrite(control, HIGH);
+    onind=0;
+    }
+    else
+    {
+      digitalWrite(control, LOW);
+       onind=1;
+    }
+   
+  }
+}
